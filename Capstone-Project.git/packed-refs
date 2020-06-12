@@ -1,0 +1,14 @@
+# pack-refs with: peeled fully-peeled sorted 
+0d9a56594f04d6689d20d7ebc86d247af81e80b2 refs/heads/API-03-Unstabil
+4a68d37a379d4d4eebe94f0e910a5fdd54ac6098 refs/heads/AndroidFrontend
+7e11f36a5566552b2177225ac0d66166ba5e3e8e refs/heads/api-03-dev
+7164e54323ca3d9f3dc9dfe88ea48b7fa4cee7f2 refs/heads/development
+f9f65d868402db11e58da781c2b9f3f705e4b3d5 refs/heads/master
+4043b070b6f888e31f50b0ab680eba2bc55dbb5c refs/heads/web-frontend
+c14a44e381fd6f3998df8bba7e7442f20daa0967 refs/pull/59/head
+5532ac7bc9503939f859d10c72e7f5e8fe8d7cf5 refs/pull/60/head
+dcd0d65f23c63267edd7caadde1f0f68e7559978 refs/pull/61/head
+dcd0d65f23c63267edd7caadde1f0f68e7559978 refs/pull/62/head
+806e93621e43cae1e210d2c3e079cd8f2356d910 refs/pull/64/head
+62e887b245a42b1f14aced7fd56a9f0f5e0aabb0 refs/pull/65/head
+40c2b6d91a4611809045612e7dca63945e4d0b75 refs/pull/66/head
