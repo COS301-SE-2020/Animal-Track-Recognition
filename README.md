@@ -2,7 +2,6 @@
 
 **Project Managment Tools**
 * Trello: https://trello.com/b/J9e4ogC6/capstone-project-tasks-board
-* Slack: https://teamzenithhq.slack.com
 * GitKraken Boards: https://app.gitkraken.com/glo/board/XrgQ-72g7AATO0N3
 * Discord: https://discord.com/channels/707165255481950219/707165255481950222
 
@@ -39,27 +38,17 @@ This is the profiles of Team Zenith. We are a family of 5. A group talented beyo
 
 |Team Member | Details | 
 | :---         | :---         |  
-|**Zachary Christophers**|    **u17011125**   |
-|**Profile** |[Github](https://zachgc.github.io/)|
-|**Overview**|I am a highly focused individual with a goal-driven outlook, with a love of wildlife. I hope to one day find a way to solve the current extinction crisis through means of technology and my development sklls.|
-|**Position** |Final year BSc Computer Science|
-|**Interests** |Reading, Games of multiple genres, Procedural generation|
-|**Skills**|C++, C#, Java, PHP, MySQL, SQL Server, HTML, CSS, ASP.NET, Python, Office Suite|
-
-|Team Member | Details | 
-| :---         | :---         |  
-|**Johanes Du Preez**|    **u15285830**   |
+|****|    ****   |
 |**Profile** |[Github]()|
-|**Overview**|I am highly creative and diverse in knowledge and always willing to learn that with I don't know|
-|**Position** |Final year BSc Computer Science|
-|**Interests** |optimization problems,AI , wildlife , learning new skills , gaming , and fanfics|
-|**Skills**|C++,Java,PHP, MySQL, SQL Server, HTML,Javascript CSS,Python, microsoft office,mongodb|
-|**Skills in traning**|graphQL| 
+|**Overview**||
+|**Position** ||
+|**Interests** ||
+|**Skills**||
 
 |Team Member | Details | 
 | :---         | :---         |  
 |****|    ****   |
-|**Profile** |[Github](https://greenlizzerd.github.io/)|
+|**Profile** |[Github]()|
 |**Overview**||
 |**Position** ||
 |**Interests** ||
