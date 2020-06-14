@@ -1,5 +1,14 @@
 # Team Zenith
 
+**Project Description**
+The Animal Track Recognition system is an application which will support ERP rangers in identifying animals by certain identification markers relating to the spoor that they may leave behind i.e droppings or tracks.
+
+**DEMO 1 Recorded Video**
+Link
+
+**Functional Requirement (SRS) Document**
+* PDF: [Animal Track Recognition SRS Doc](https://teamzenith.educationhost.cloud/assets/Team_Zenith___Animal_Track_Recog_SRS.pdf)
+
 **Project Managment Tools**
 * Trello: https://trello.com/b/J9e4ogC6/capstone-project-tasks-board
 * GitKraken Boards: https://app.gitkraken.com/glo/board/XrgQ-72g7AATO0N3
