@@ -1,13 +1,8 @@
 import '../../../core/viewmodels/heatmap_viewmodel.dart';
+import 'package:ERP_Ranger/ui/views/confirm/confirm_view.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:rxdart/rxdart.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:location/location.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:geoflutterfire/geoflutterfire.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../widgets/bottom_nav.dart';
 import '../base_view.dart';
 
@@ -21,7 +16,15 @@ class HeatMapView extends StatefulWidget {
 
 class _HeatMapView extends State<HeatMapView> {
   int _currentTabIndex = 2;
-
+        String addImage = """ 
+          mutation addImg(\$class: String!, \$image: String!){
+            AddIMG(Classification: \$class, img: \$image){
+              Kind_Of_Picture
+              ID
+              URL
+            }
+          }
+        """;
   @override
   Widget build(BuildContext context) {
     BottomNavigation bottomNavigation = new BottomNavigation();
@@ -40,64 +43,108 @@ class _HeatMapView extends State<HeatMapView> {
             body: WillPopScope(
                 onWillPop: _onBackPressed,
                 child: Scaffold(
-                  body: FireMap(),
+                  body: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      
+                      margin:  new EdgeInsets.only(top:300),
+                      child: Center(
+                          child: Column(
+                                children: <Widget>[
+                                  Mutation(
+                                    options: MutationOptions(
+                                      documentNode: gql(addImage),
+                                      onCompleted: (dynamic resultData){
+                                        print(resultData.data["AddIMG"]["ID"]);
+                                          Fluttertoast.showToast(
+                                            msg: "Upload to Cloud Complete",
+                                            toastLength: Toast.LENGTH_SHORT,
+                                            gravity: ToastGravity.CENTER,
+                                            timeInSecForIosWeb: 1,
+                                            backgroundColor: Colors.white,
+                                            textColor: Colors.black,
+                                            fontSize: 16.0
+                                          );
+                                      }
+                                    ),
+                                    builder: (RunMutation runMutation,QueryResult result) {
+                                      return IconButton(
+                                        icon: Icon(Icons.cloud_upload),
+                                        iconSize: 40,
+                                        onPressed: () async{
+                                          String url = await model.imagePicker();
+                                          print(url);
+                                          runMutation({
+                                            'class':"",
+                                            'image': url,
+                                          });
+                                        },
+                                      );
+                                    },
+                                  ),
+                                  Text("Upload An Image",
+                                    style: TextStyle(fontSize: 20,
+                                    fontFamily: 'Arciform',
+                                    fontWeight: FontWeight.normal)
+                                  ),
+                                ],
+                              ),
+                          ),
+                        ),
+                  ),
+                    )
+                  ) ,
                   bottomNavigationBar: BottomNavigation(),
-              ),
-            ), 
-        )
-    );
+              ), 
+        );
   }
 }
 
+// class FireMap extends StatefulWidget {
 
-class FireMap extends StatefulWidget {
+//   @override
+//   State createState() => FireMapState();
+// }
 
-  @override
-  State createState() => FireMapState();
-}
+// class FireMapState extends State<FireMap> {
+//   GoogleMapController mapController;
+//   Position position;
+//   Widget _child;
 
-class FireMapState extends State<FireMap> {
-  GoogleMapController mapController;
-  Position position;
-  Widget _child;
-
- build(BuildContext context) {
-    return Stack(
-    children: [
-        GoogleMap(
-          initialCameraPosition: CameraPosition(
-            target: LatLng(-26.097740173,28.233989716),
-            zoom: 15
-          ),
-          onMapCreated: (GoogleMapController controller){
-              setState(() {
-                mapController = controller;
-              });
-          },
-          myLocationEnabled: true,
-          mapType: MapType.hybrid,
-          compassEnabled: true,
-        ),
-        Positioned(
-            bottom: 50,
-            left: 10,
-            child: FlatButton(
-                child: Icon(Icons.pin_drop, color: Colors.white,),
-                color: Colors.green,
-                onPressed: (){
-                    var marker = Marker(
-                      icon: BitmapDescriptor.defaultMarker,
-                      infoWindow: InfoWindow(
-                        title:"Magic Marker" 
-                      ),
-                        //position: mapController.getScreenCoordinate(latLng)
-                    );
+//  build(BuildContext context) {
+//     return Stack(
+//     children: [
+//         GoogleMap(
+//           initialCameraPosition: CameraPosition(
+//             target: LatLng(-26.097740173,28.233989716),
+//             zoom: 15
+//           ),
+//           onMapCreated: (GoogleMapController controller){
+//               setState(() {
+//                 mapController = controller;
+//               });
+//           },
+//           myLocationEnabled: true,
+//           mapType: MapType.satellite,
+//           compassEnabled: true,
+//         ),
+//         Positioned(
+//             bottom: 50,
+//             left: 10,
+//             child: FlatButton(
+//                 child: Icon(Icons.pin_drop, color: Colors.white,),
+//                 color: Colors.green,
+//                 onPressed: (){
+//                     var marker = Marker(
+//                       icon: BitmapDescriptor.defaultMarker,
+//                       infoWindow: InfoWindow(
+//                         title:"Magic Marker" 
+//                       ), markerId: null,
+//                         //position: mapController.getScreenCoordinate(latLng)
+//                     );
                   
-                },
-            ),
-        )
-    ]);
-  }
-
-
-}
+//                 },
+//             ),
+//         )
+//     ]);
+//   }
