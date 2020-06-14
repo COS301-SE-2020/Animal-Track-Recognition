@@ -13,15 +13,15 @@ class Router {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case '/':
-        return MaterialPageRoute(builder: (_) => HomeView());
+        return MaterialPageRoute(builder: (_) => HomeView(animal: null,));
       case 'login':
         return MaterialPageRoute(builder: (_) => LoginView());
       case 'confirm':
-        return MaterialPageRoute(builder: (_) => ConfirmView());
+        return MaterialPageRoute(builder: (_) => ConfirmView(animal: null,));
       case 'info':
         return MaterialPageRoute(builder: (_) => InfoView());
       case 'animal_info':
-        return MaterialPageRoute(builder: (_) => AnimalView());
+        return MaterialPageRoute(builder: (_) => AnimalView(null));
       case 'heat_map':
         return MaterialPageRoute(builder: (_) => HeatMapView());
 

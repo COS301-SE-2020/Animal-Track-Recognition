@@ -1,14 +1,23 @@
-import 'package:ERP_Ranger/router.dart';
 import 'package:ERP_Ranger/ui/views/home/home_view.dart';
 import 'package:ERP_Ranger/ui/views/login/login_view.dart';
-import 'package:flutter/material.dart';
+import 'core/services/graphQLConf.dart';
+import 'package:ERP_Ranger/router.dart';
 import 'package:ERP_Ranger/locator.dart';
+import 'package:flutter/material.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
  void main() {
+   WidgetsFlutterBinding.ensureInitialized();
   // setup locator
   setupLocator();
-  runApp(ERP());
+  runApp(
+    GraphQLProvider(
+      client: graphQLConfiguration.client,
+      child: CacheProvider(child: ERP()),
+    ),
+  );
 }
 
 class ERP extends StatefulWidget {
@@ -34,19 +43,15 @@ class _ERP extends State<ERP> {
           if(snapshot.data == true){
             return MaterialApp(
               title: 'Flutter Demo',
-              home: HomeView(),
-              routes: <String, WidgetBuilder>{
-                  '/home' : (context)  => HomeView(),
-              },
+              debugShowCheckedModeBanner: false,
+              home: HomeView(animal: null,),
               onGenerateRoute: Router.generateRoute,
             );
           }else {
             return MaterialApp(
               title: 'Flutter Demo',
+              debugShowCheckedModeBanner: false,
               home: LoginView(),
-              routes: <String, WidgetBuilder>{
-                  '/home' : (context)  => HomeView(),
-              },
               onGenerateRoute: Router.generateRoute,
             );
           }
@@ -54,10 +59,11 @@ class _ERP extends State<ERP> {
     );
   }
 }
+
 Future<bool> getLoggedIn() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   bool loggedIn = prefs.getBool('loggedIn') ?? false;
-  //await prefs.setInt('tabIndex', 0);
-  print(loggedIn);
+  prefs.setBool("loaded", false);
+  await prefs.setInt('tabIndex', 0);
   return loggedIn;
 }
