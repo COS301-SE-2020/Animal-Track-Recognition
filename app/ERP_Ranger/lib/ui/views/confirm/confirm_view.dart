@@ -1,19 +1,21 @@
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:ERP_Ranger/ui/views/home/home_view.dart';
 import 'package:flutter/material.dart';
+import '../../../core/services/user.dart';
 import '../../../core/viewmodels/confirm_viewmodel.dart';
-import '../../widgets/bottom_nav.dart';
 import '../base_view.dart';
 import 'dart:io';
 
 
 class ConfirmView extends StatefulWidget {
-  ConfirmView({Key key}) : super(key: key);
-
+  List<User> animal;
+  ConfirmView({@required this.animal});
   @override
-  _ConfirmView createState() => _ConfirmView();
+  _ConfirmView createState() => _ConfirmView(animal: animal);
 }
 
 class _ConfirmView extends State<ConfirmView> {
+  List<User> animal;
+  _ConfirmView({@required this.animal});
   @override
   Widget build(BuildContext context) {
 
@@ -21,10 +23,13 @@ class _ConfirmView extends State<ConfirmView> {
         builder: (context, model, child) => Scaffold(
           body: Padding(
               padding: EdgeInsets.all(10),
-              child: Center(
-                  child: ListView(
+              child: Container(
+                  child: Column(
                       children: <Widget>[
+                          Heading(),
+                          SubHeading(),
                           ViewButton(model: model),
+                          ViewButtonInfo(model: model,animal: animal,),
                           DownLoadButton(model: model),
                           RecaptureButton(model: model)
                       ]
@@ -32,6 +37,45 @@ class _ConfirmView extends State<ConfirmView> {
               ),
           ),
         ),
+    );
+  }
+}
+
+class Heading extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        //height: 20,
+        margin: new EdgeInsets.only(top:20),
+        child: Text('SPOOR IDENTIFIED!',
+          style: TextStyle(fontSize: 35,
+            fontFamily: 'Arciform',
+            fontWeight: FontWeight.bold)
+        ),
+      ),
+    );
+  }
+}
+
+class SubHeading extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        //height: 20,
+        margin: new EdgeInsets.only(bottom:20),
+        child: Text('Please select an option below',
+          style: TextStyle(fontSize: 20,
+            fontFamily: 'Arciform',
+            color: Colors.grey,
+            fontWeight: FontWeight.normal)
+        ),
+      ),
     );
   }
 }
@@ -48,16 +92,61 @@ class ViewButton extends StatelessWidget {
         width: 325,
         margin: const EdgeInsets.only(top: 20.0),
         padding: EdgeInsets.fromLTRB(10, 5, 10, 0),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10)
+        ),
         child: RaisedButton(
           textColor: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          splashColor: Colors.grey,
           child: Text(
             'View Spoor',
             style: TextStyle(fontSize: 15,
-            fontFamily: 'Arciform'),
+            fontFamily: 'Arciform',
+            fontWeight: FontWeight.bold),
           ),
           onPressed: () async{
-          
-              
+        
+          },
+        ),
+        
+    );
+  }
+}
+
+class ViewButtonInfo extends StatelessWidget {
+  var model;
+  List<User> animal;
+  ViewButtonInfo({@required this.model,@required this.animal,});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        height: 50,
+        width: 325,
+        margin: const EdgeInsets.only(top: 20.0),
+        padding: EdgeInsets.fromLTRB(10, 5, 10, 0),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10)
+        ),
+        child: RaisedButton(
+          textColor: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          splashColor: Colors.grey,
+          child: Text(
+            'View Spoor Info',
+            style: TextStyle(fontSize: 15,
+            fontFamily: 'Arciform',
+            fontWeight: FontWeight.bold),
+          ),
+          onPressed: () async{
+              Navigator.push(context, 
+                new MaterialPageRoute(builder: (context) => HomeView(animal:animal))
+              );
           },
         ),
         
@@ -77,12 +166,20 @@ class DownLoadButton extends StatelessWidget {
         width: 325,
         margin: const EdgeInsets.only(top: 20.0),
         padding: EdgeInsets.fromLTRB(10, 5, 10, 0),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10)
+        ),
         child: RaisedButton(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          splashColor: Colors.grey,
           textColor: Colors.white,
           child: Text(
             'Download Image',
             style: TextStyle(fontSize: 15,
-            fontFamily: 'Arciform'),
+            fontFamily: 'Arciform',
+            fontWeight: FontWeight.bold),
           ),
           onPressed: () async{
           
@@ -106,15 +203,26 @@ class RecaptureButton extends StatelessWidget {
         width: 325,
         margin: const EdgeInsets.only(top: 20.0),
         padding: EdgeInsets.fromLTRB(10, 5, 10, 0),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10)
+        ),
         child: RaisedButton(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          splashColor: Colors.grey,
           textColor: Colors.white,
           child: Text(
             'Recapture Image',
             style: TextStyle(fontSize: 15,
-            fontFamily: 'Arciform'),
+            fontFamily: 'Arciform',
+            fontWeight: FontWeight.bold),
           ),
           onPressed: () async{
-
+              List<User> animals = await model.imagePicker();
+              Navigator.push(context, 
+                  new MaterialPageRoute(builder: (context) => ConfirmView(animal: animals,))
+              );
           },
         ),
         
