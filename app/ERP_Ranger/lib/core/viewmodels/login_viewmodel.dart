@@ -8,8 +8,8 @@ import 'base_model.dart';
 class LoginModel extends BaseModel{
   final Api _api = locator<Api>();
   
-  // Future validateUser(String url, Map map){
-  //   return _api.login(url, map);
-  // }
+  Future validateUser(String name, String pass){
+    return _api.login(name, pass);
+  }
 
 }
