@@ -1,9 +1,6 @@
 import 'package:ERP_Ranger/ui/views/home/home_view.dart';
 import 'package:ERP_Ranger/core/viewmodels/login_viewmodel.dart';
-import 'package:ERP_Ranger/core/services/api.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import '../../../locator.dart';
-import 'package:flutter_login/flutter_login.dart';
 import 'package:flutter/material.dart';
 import 'package:ERP_Ranger/ui/views/base_view.dart';
 
@@ -26,15 +23,12 @@ class _LoginView extends State<LoginView> {
     return BaseView<LoginModel>(
         builder: (context, model, child) =>Scaffold(
             backgroundColor: Colors.white,
-            body:  Center(
-            heightFactor: 1,
-            child: Column(
+            body:  Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Container(child: LoginLogo(),),
-                Container(
-                  child: Form(
+                LoginLogo(),
+                Form(
                     key: formKey,
                     child: Column(
                       children: <Widget>[
@@ -44,20 +38,16 @@ class _LoginView extends State<LoginView> {
                       ],
                     ),
                   ),
-                ),
-                Container(child: ForgotPassword()),
-                Container(child: buildButton(model),)
+                ForgotPassword(),
+                buildButton(model)
               ],
             ),
-          ),
         )
     );
   }
 
-
   Widget _buildID() {
     return TextFormField(
-      
       textAlignVertical: TextAlignVertical.center,
       decoration: new InputDecoration(
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
@@ -110,7 +100,6 @@ class _LoginView extends State<LoginView> {
     return Container(
         height: 50,
         width: 325,
-        margin: const EdgeInsets.only(top: 10.0, bottom: 70),
         padding: EdgeInsets.fromLTRB(10, 5, 10, 0),
         child: RaisedButton(
           shape: RoundedRectangleBorder(
@@ -128,13 +117,7 @@ class _LoginView extends State<LoginView> {
             final form = formKey.currentState;
             if(form.validate()){
                 form.save();
-
-                String url = "";
-                Map map = {
-                  "RangerID": _id,
-                  "password": _password
-                };
-                var boolean = await model.validateUser(url, map);
+                var boolean = await model.validateUser(_id, _password);
 
                 if(boolean){
                   Fluttertoast.showToast(
@@ -146,7 +129,7 @@ class _LoginView extends State<LoginView> {
                     textColor: Colors.black,
                     fontSize: 16.0
                   );
-                  Navigator.of(context).pushAndRemoveUntil(PageRouteBuilder(pageBuilder: (context, animation1, animation2) => HomeView()), (Route<dynamic> route) => false);
+                  Navigator.of(context).pushAndRemoveUntil(PageRouteBuilder(pageBuilder: (context, animation1, animation2) => HomeView(animal:null)), (Route<dynamic> route) => false);
                 }else{
                   Fluttertoast.showToast(
                           msg: "Invalid Login Details",
@@ -173,7 +156,6 @@ class LoginLogo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.center,
-      margin: const EdgeInsets.only(top:30 ,bottom: 20.0),
         child: Container(
           width: 100,
           child: Image.asset('assets/images/logo.jpeg'),
@@ -183,7 +165,6 @@ class LoginLogo extends StatelessWidget {
   }
 
 class ForgotPassword extends StatelessWidget {
-  LoginModel loginModel = LoginModel();
   @override
   Widget build(BuildContext context) {
     return Container(
