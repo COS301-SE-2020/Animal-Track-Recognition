@@ -7,8 +7,8 @@ The Animal Track Recognition system is an application which will support ERP ran
 Link
 
 **Functional Requirement (SRS) Document**
-*Overleaf: https://www.overleaf.com/8384791555zbpnnbkhcmqs
-*PDF Link:
+* Overleaf: https://www.overleaf.com/8384791555zbpnnbkhcmqs
+* PDF Link:
 
 **Project Managment Tools**
 * Trello: https://trello.com/b/J9e4ogC6/capstone-project-tasks-board
