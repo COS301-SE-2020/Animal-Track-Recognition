@@ -2,6 +2,7 @@ import '../../../core/viewmodels/heatmap_viewmodel.dart';
 import 'package:ERP_Ranger/ui/views/confirm/confirm_view.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import '../../../core/services/user.dart';
 import 'package:flutter/material.dart';
 import '../../widgets/bottom_nav.dart';
 import '../base_view.dart';
@@ -92,9 +93,20 @@ class _HeatMapView extends State<HeatMapView> {
                           ),
                         ),
                   ),
-                    )
+                    ),
                   ) ,
                   bottomNavigationBar: BottomNavigation(),
+                  floatingActionButton: FloatingActionButton(
+                  child: Icon(Icons.add_a_photo),
+                  backgroundColor: Color(0xFFF2929C),
+                  tooltip: 'Pick Image',
+                  onPressed:()async{
+                    List<User> animals = await model.imageID();
+                    Navigator.push(context, 
+                        new MaterialPageRoute(builder: (context) => ConfirmView(animal: animals,))
+                    ); 
+                  } 
+                )
               ), 
         );
   }
