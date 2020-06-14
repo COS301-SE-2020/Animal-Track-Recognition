@@ -7,16 +7,24 @@ import 'package:flutter/material.dart';
 import '../../../locator.dart';
 import '../../widgets/bottom_nav.dart';
 import '../base_view.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 //import 'package:provider_assist/provider_assist.dart';
 
 List<User> holder = List<User>();
-class HomeView extends StatefulWidget {
+bool loaded = false;
 
+class HomeView extends StatefulWidget {
+  List<User> animal;
+  HomeView({@required this.animal,});
   @override
-  _HomeView createState() => _HomeView();
+  _HomeView createState() => _HomeView(animal: animal);
 }
 
 class _HomeView extends State<HomeView> {
+  
+  List<User> animal;
+  _HomeView({@required this.animal,});
   int _currentTabIndex = 0;
   var quer;
   List<User> users = List();
@@ -35,10 +43,29 @@ class _HomeView extends State<HomeView> {
     
     super.initState();
     setState(() {
-      users = _api.getResults();
-      holder.addAll(users);
+      //getAnimals();
     });
 
+  }
+
+  Future<List<User>>getAnimals() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool loaded = prefs.getBool("loaded") ?? false;
+   
+    if(animal == null && loaded == false){
+      holder.clear();
+    }
+    else if(animal == null && loaded == true){
+      users =await _api.getResults();
+      holder.clear();
+      holder.addAll(users);
+    }
+    else if(animal != null){
+      holder.clear();
+      holder.addAll(animal);
+    }
+
+    return holder;
   }
 
   void filterSearch(String query){
@@ -46,10 +73,8 @@ class _HomeView extends State<HomeView> {
     dummySearchList.addAll(users);
     if(query.isNotEmpty){
       List<User> dummyListData = List<User>();
-      users.clear();
-      users.addAll(holder);
       dummySearchList.forEach((element) {
-        if(element.name.toLowerCase().contains(query.toLowerCase()) || element.about.contains(query) ){
+        if(element.name.toLowerCase().substring(0,query.length).contains(query.toLowerCase())){
           dummyListData.add(element);
         }
       });
@@ -89,7 +114,8 @@ class _HomeView extends State<HomeView> {
                                   height: 20,
                                   child: Text("Recent Identifications",
                                   style: TextStyle(fontSize: 25,
-                                  fontFamily: 'Arciform')
+                                  fontFamily: 'Arciform',
+                                  fontWeight: FontWeight.bold)
                                   )
                                 ),
                               ),
@@ -113,44 +139,300 @@ class _HomeView extends State<HomeView> {
                           ),
                         ),
                       Expanded(
-                          child: ListView.builder(
-                            itemCount: holder.length,
-                            itemBuilder: (BuildContext context, int index){
-                              return Card(
-                                child: Padding(
-                                    padding: EdgeInsets.all(10.0),
-                                    child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      ListTile(
-                                        
-                                        leading: CircleAvatar(
-                                            backgroundImage: NetworkImage(
-                                              'https://images.unsplash.com/photo-1503066211613-c17ebc9daef0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80'
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(10)
+                            ),
+                            child: loaded ? ListView.builder(
+                              itemCount: holder.length,
+                              itemBuilder: (BuildContext context, int index){
+                                return Card(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                    side: BorderSide(color: Colors.grey[200], width:4),
+                                  ),
+                                  elevation: 10,
+                                  margin: EdgeInsets.all(10),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(context, PageRouteBuilder(
+                                          pageBuilder: (context, animation1, animation2) => AnimalView(holder[index]),
+                                        ),);                                  
+                                      },
+                                      child: Row(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: <Widget>[
+                                          Expanded(
+                                            flex: 2,
+                                              child: Container(
+                                               decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(10),
+                                                ),                                          
+                                              child:ClipRRect(
+                                                borderRadius: BorderRadius.circular(10),
+                                                child: Image(
+                                                  image: NetworkImage(holder[index].picture[0]),
+                                                  fit: BoxFit.fill,
+                                                )
+                                              ),
+                                            ),
+                                          ),
+                                          Expanded(
+                                            flex: 5,
+                                            child: Align(
+                                              alignment: Alignment.center,
+                                              child: Padding(
+                                                padding: const EdgeInsets.all(8.0),
+                                                child: Container(
+                                                  child: Column(
+                                                    children: <Widget>[
+                                                      
+                                                      Padding(
+                                                        padding: const EdgeInsets.only(left:5,top:1,bottom:1,),
+                                                        child: Align(alignment: Alignment.centerLeft,
+                                                          child: Text(holder[index].name,
+                                                            style: TextStyle(fontSize: 13,
+                                                              fontFamily: 'Arciform',
+                                                              fontWeight: FontWeight.bold,
+                                                              color: Colors.grey
+                                                            ),                                                       
+                                                          ),
+                                                        ),
+                                                      ),                                               
+                                                      Padding(
+                                                        padding: const EdgeInsets.only(left:5,top:1,bottom:1,),
+                                                        child: Align(alignment: Alignment.centerLeft,
+                                                          child: Text("Date: 09/09/2020",
+                                                            style: TextStyle(fontSize: 13,
+                                                              fontFamily: 'Arciform'
+                                                            ),                                                       
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Padding(
+                                                        padding: const EdgeInsets.only(left:5,top:1,bottom:1,),
+                                                        child: Align(alignment: Alignment.centerLeft,
+                                                          child: Text("Location: Kruger Park",
+                                                            style: TextStyle(fontSize: 13,
+                                                              fontFamily: 'Arciform'
+                                                            ),                                                      
+                                                          ),
+                                                        ),
+                                                      ),                                               
+                                                      Padding(
+                                                        padding: const EdgeInsets.only(left:5,top:1,bottom:1,),
+                                                        child: Align(alignment: Alignment.centerLeft,
+                                                          child: Text("-24.019097, 31.559270",
+                                                            style: TextStyle(fontSize: 13,
+                                                              fontFamily: 'Arciform'
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      
+                                                      
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          Expanded(
+                                            flex: 2,
+                                              child:Card(
+                                                color: Colors.grey[50],
+                                                shape: RoundedRectangleBorder(
+                                                  side: BorderSide(color: Colors.grey[100], width:3),
+                                                  borderRadius: BorderRadius.circular(10),
+                                                ),                                
+                                                child: Column(
+                                                  children: [
+                                                    Center(child: Padding(
+                                                      padding: const EdgeInsets.only(right:6,left:6,top:3,bottom:1,),
+                                                      child: Text(holder[index].confidence,
+                                                        style: TextStyle(fontSize: 22,
+                                                          fontFamily: 'Arciform'
+                                                        ),                                             
+                                                      ),
+                                                    )),
+                                                    Center(child: Padding(
+                                                      padding: const EdgeInsets.only(right:6,left:6,top:3),
+                                                      child: Text("Accuracy",
+                                                        style: TextStyle(fontSize: 12,
+                                                          fontFamily: 'Arciform'
+                                                        ),                                                    
+                                                      ),
+                                                    )),
+                                                    Center(child: Padding(
+                                                      padding: const EdgeInsets.only(right:6,left:6,bottom:3,),
+                                                      child: Text("Score",
+                                                        style: TextStyle(fontSize: 12,
+                                                          fontFamily: 'Arciform'
+                                                        ),                                                   
+                                                      ),
+                                                    ))                                                 
+                                                  ]
+                                                )
+                                              ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              }
+                            ): FutureBuilder(
+                              future: getAnimals(),
+                              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                                //loaded = true;
+                                return ListView.builder( 
+                                  itemCount: holder.length,
+                                  itemBuilder: (BuildContext context, int index){
+                                    return Card(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(15),
+                                        side: BorderSide(color: Colors.grey[200], width:4),
+                                      ),
+                                      elevation: 10,
+                                      margin: EdgeInsets.all(10),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            Navigator.push(context, PageRouteBuilder(
+                                              pageBuilder: (context, animation1, animation2) => AnimalView(holder[index]),
+                                            ),);                                  
+                                          },
+                                          child: Row(
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: <Widget>[
+                                              Expanded(
+                                                flex: 2,
+                                                  child: Container(
+                                                  decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(10),
+                                                    ),                                          
+                                                  child:ClipRRect(
+                                                    borderRadius: BorderRadius.circular(10),
+                                                    child: Image(
+                                                      image: NetworkImage(holder[index].picture[0]),
+                                                      fit: BoxFit.fill,
+                                                    )
+                                                  ),
+                                                ),
+                                              ),
+                                              Expanded(
+                                                flex: 5,
+                                                child: Align(
+                                                  alignment: Alignment.center,
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.all(8.0),
+                                                    child: Container(
+                                                      child: Column(
+                                                        children: <Widget>[
+                                                          
+                                                          Padding(
+                                                            padding: const EdgeInsets.only(left:5,top:1,bottom:1,),
+                                                            child: Align(alignment: Alignment.centerLeft,
+                                                              child: Text(holder[index].name,
+                                                                style: TextStyle(fontSize: 13,
+                                                                  fontFamily: 'Arciform',
+                                                                  fontWeight: FontWeight.bold,
+                                                                  color: Colors.grey
+                                                                ),                                                       
+                                                              ),
+                                                            ),
+                                                          ),                                               
+                                                          Padding(
+                                                            padding: const EdgeInsets.only(left:5,top:1,bottom:1,),
+                                                            child: Align(alignment: Alignment.centerLeft,
+                                                              child: Text("Date: 09/09/2020",
+                                                                style: TextStyle(fontSize: 13,
+                                                                  fontFamily: 'Arciform'
+                                                                ),                                                       
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          Padding(
+                                                            padding: const EdgeInsets.only(left:5,top:1,bottom:1,),
+                                                            child: Align(alignment: Alignment.centerLeft,
+                                                              child: Text("Location: Kruger Park",
+                                                                style: TextStyle(fontSize: 13,
+                                                                  fontFamily: 'Arciform'
+                                                                ),                                                      
+                                                              ),
+                                                            ),
+                                                          ),                                               
+                                                          Padding(
+                                                            padding: const EdgeInsets.only(left:5,top:1,bottom:1,),
+                                                            child: Align(alignment: Alignment.centerLeft,
+                                                              child: Text("-24.019097, 31.559270",
+                                                                style: TextStyle(fontSize: 13,
+                                                                  fontFamily: 'Arciform'
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          
+                                                          
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              Expanded(
+                                                flex: 2,
+                                                  child:Card(
+                                                    color: Colors.grey[50],
+                                                    shape: RoundedRectangleBorder(
+                                                      side: BorderSide(color: Colors.grey[100], width:3),
+                                                      borderRadius: BorderRadius.circular(10),
+                                                    ),                                
+                                                    child: Column(
+                                                      children: [
+                                                        Center(child: Padding(
+                                                          padding: const EdgeInsets.only(right:6,left:6,top:3,bottom:1,),
+                                                          child: Text(holder[index].confidence,
+                                                            style: TextStyle(fontSize: 22,
+                                                              fontFamily: 'Arciform'
+                                                            ),                                             
+                                                          ),
+                                                        )),
+                                                        Center(child: Padding(
+                                                          padding: const EdgeInsets.only(right:6,left:6,top:3),
+                                                          child: Text("Accuracy",
+                                                            style: TextStyle(fontSize: 12,
+                                                              fontFamily: 'Arciform'
+                                                            ),                                                    
+                                                          ),
+                                                        )),
+                                                        Center(child: Padding(
+                                                          padding: const EdgeInsets.only(right:6,left:6,bottom:3,),
+                                                          child: Text("Score",
+                                                            style: TextStyle(fontSize: 12,
+                                                              fontFamily: 'Arciform'
+                                                            ),                                                   
+                                                          ),
+                                                        ))                                                 
+                                                      ]
+                                                    )
+                                                  ),
+                                              ),
+                                            ],
                                           ),
                                         ),
-                                        title:Text(holder[index].name),
-                                        subtitle: Text('Date: 09/09/2020',
-                                            style: TextStyle(fontSize: 15,
-                                            fontFamily: 'Arciform'),
-                                        ),
-                                        trailing: Text("35%",
-                                            style: TextStyle(fontSize: 20,
-                                            fontFamily: 'Arciform')
-                                        ),
-                                        onTap: (){
-                                          Navigator.push(context, 
-                                            new MaterialPageRoute(builder: (context) => AnimalView())
-                                          );
-                                        },
                                       ),
-                                      SizedBox(height: 0.0,)
-                                    ],
-                                  ),
-                                )
-                              );
-                            }
+                                    );
+                                  }
+                                );
+                              },
+                            ),
                           ),
                       )
                 ],
@@ -161,16 +443,15 @@ class _HomeView extends State<HomeView> {
             backgroundColor: Color(0xFFF2929C),
             tooltip: 'Pick Image',
             onPressed:()async{
-                bool boolean = await model.imagePicker();
-                // Navigator.push(context, 
-                //     new MaterialPageRoute(builder: (context) => ConfirmView(boolean))
-                // );   
+                List<User> animals = await model.imagePicker();
+
+                Navigator.push(context, 
+                    new MaterialPageRoute(builder: (context) => ConfirmView(animal: animals,))
+                );   
             } 
           ),
         )
     );
   }
 
-   
 }
-
