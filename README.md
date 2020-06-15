@@ -10,7 +10,6 @@ The Animal Track Recognition system is an application which will support ERP ran
 * PDF: [Animal Track Recognition SRS Doc](https://teamzenith.educationhost.cloud/assets/Team_Zenith___Animal_Track_Recog_SRS.pdf)
 
 **Project Managment Tools**
-* Trello: https://trello.com/b/J9e4ogC6/capstone-project-tasks-board
 * Slack: https://teamzenithhq.slack.com
 * GitKraken Boards: https://app.gitkraken.com/glo/board/XrgQ-72g7AATO0N3
 * Discord: https://discord.com/channels/707165255481950219/707165255481950222
