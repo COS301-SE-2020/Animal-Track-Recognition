@@ -4,7 +4,7 @@
 The Animal Track Recognition system is an application which will support ERP rangers in identifying animals by certain identification markers relating to the spoor that they may leave behind i.e droppings or tracks.
 
 **DEMO 1 Recorded Video**
-Link
+* Video: [Animal Track Recognition DEMO 1 Video](https://drive.google.com/file/d/1wPRWSZfDXdYjMZgVQhYv0WJvxW_datI-/view?usp=sharing)
 
 **Functional Requirement (SRS) Document**
 * PDF: [Animal Track Recognition SRS Doc](https://teamzenith.educationhost.cloud/assets/Team_Zenith___Animal_Track_Recog_SRS.pdf)
