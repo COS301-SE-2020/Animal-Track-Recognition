@@ -4,7 +4,7 @@ const expressPlayground = require("graphql-playground-middleware-express")
 
 const app = express();
 const port = 55555;
-let statis = "idile"
+let status = "idle"
 
 const schema = require('./schema/schema');
 // bind express with graphql
@@ -24,24 +24,29 @@ app.use('/graphiql', graphqlHTTP({
 
 app.get('/AIretran', (req, res) => {
 
-    if (statis == "idile") {
-        res.send('retraning')
-        statis = "traning"
-        const spawn = require("child_process").spawn;
-        const pythonProcess = spawn('python', ["fileReder.py"]);
-        pythonProcess.stdout.on('data', (data) => {
-            // Do something with the data returned from python script
+    if (status == "idle") {
+        status = "training"
 
-            statis = "idile"
+        const {
+            spawn
+        } = require('child_process');
+        const pyProg = spawn('python', ['./fileReader.py']);
+
+        pyProg.stdout.on('data', function (data) {
+
+            console.log(data.toString());
+            res.write(data);
+            res.end('end');
+            status = "idle";
         });
     }
 
 
 })
 
-app.get('/AIStatis', (req, res) => {
+app.get('/AIstatus', (req, res) => {
 
-    res.send(statis)
+    res.send(status)
 
 })
 
@@ -49,8 +54,3 @@ app.listen(port, () => {
     console.log('now listening for requests on port ' + port);
     console.log(`Example app listening at http://localhost:${port}`);
 });
-
-
-
-
-
