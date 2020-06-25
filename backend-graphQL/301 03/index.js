@@ -3,7 +3,7 @@ const graphqlHTTP = require('express-graphql');
 const expressPlayground = require("graphql-playground-middleware-express")
 
 const app = express();
-const port = 55555;
+const port = 4000;
 let status = "idle"
 
 const schema = require('./schema/schema');
@@ -39,6 +39,9 @@ app.get('/AIretran', (req, res) => {
             res.end('end');
             status = "idle";
         });
+
+
+        
     }
 
 
