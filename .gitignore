@@ -3,3 +3,4 @@
 *.jpg
 *.png
 *.CR2
+!test.JPG
