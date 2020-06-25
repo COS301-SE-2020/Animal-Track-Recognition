@@ -937,12 +937,12 @@ module.exports = new GraphQLSchema({
     mutation: Mutation
 });
 
-db.collection('AnimalInfo').get()
-    .then((snapshot) => {
-        snapshot.forEach((doc) => {
-            console.log(doc.id, '=>', doc.data());
-        });
-    })
-    .catch((err) => {
-        console.log('Error getting documents', err);
-    });
+// db.collection('AnimalInfo').get()
+//     .then((snapshot) => {
+//         snapshot.forEach((doc) => {
+//             console.log(doc.id, '=>', doc.data());
+//         });
+//     })
+//     .catch((err) => {
+//         console.log('Error getting documents', err);
+//     });
