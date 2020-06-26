@@ -50,7 +50,12 @@ app.get('/AIretran', (req, res) => {
 
 
         
+    }else
+    {
+        res.write("buzzy");
+        res.end('end');
     }
+
 
 
 })
