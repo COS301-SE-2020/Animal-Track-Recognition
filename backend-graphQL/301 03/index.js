@@ -3,8 +3,9 @@ const graphqlHTTP = require('express-graphql');
 const expressPlayground = require("graphql-playground-middleware-express")
 
 const app = express();
-const port = 55556;
+const port = 55555;
 let status = "idle"
+
 
 const schema = require('./schema/schema');
 // bind express with graphql
@@ -33,25 +34,18 @@ app.get('/AIretran', (req, res) => {
         const pyProg = spawn('python', ['./fileReader.py']);
 
         pyProg.stdout.on('data', function (data) {
-
-            if (  data.toString().startsWith("charizard")){
-            console.log(data.toString());
-            res.write(data);
-            res.end('end');
-            status = "idle";
-            pyProg.end;
-            }
-            else{
+            if (data.toString().startsWith("charizard") == true) {
+                // console.log(data.toString());
+                res.write(data);
+                res.end('end');
+                status = "idle";
+                console.log(status)
+                pyProg.end;
+            } else {
                 console.log(data.toString());
             }
-
-            
         });
-
-
-        
-    }else
-    {
+    } else {
         res.write("buzzy");
         res.end('end');
     }

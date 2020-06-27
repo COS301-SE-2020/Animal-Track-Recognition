@@ -1,31 +1,34 @@
 import os
-import numpy
+import numpy as np
+import tensorflow as tf
 import PIL
+
+
+
 from PIL import Image
 cwd = os.getcwd()
-print("break "+ 1)
+
 cwd = cwd[:-6]
 list1 = os.listdir(cwd + "Training Data/")
 out = "charizard"
-print("break "+2)
+
 arr = [[]]
 out = out + str(arr) + "\n\n"
 for i in list1:
-    print("break "+3+i)
     wd = cwd + "Training Data\\" + i
     out = out + wd + "\n\t"
     list2 = os.listdir(wd)
+    CLASS_NAMES =np.array(list2)
     for j in list2:
-        print("break "+4+j)
         out = out+"\t" + j + "\t"
-        filewd = wd + j
-        image = Image.open(filewd)
-        out = out + "\t" + image.format + "\t"+ image.mode + "\t"+ image.size + "\t"
+        filewd = wd +"\\"+ j
+        image = Image.open(filewd,"r")
+        out = out + "\t" + str(image.format )+ "\t"+ str(image.mode )+ "\t"+ str(image.size )+ "\t"
         out = out + "\n"
     out = out + "\n"
 
 
-print(5)
+print(out)
 
 
 # import glob
