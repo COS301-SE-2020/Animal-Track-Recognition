@@ -45,6 +45,9 @@ app.get('/AIretran', (req, res) => {
                 console.log(data.toString());
             }
         });
+        pyProg.stderr.on('data', function (data) {
+            console.log(data)
+        });
     } else {
         res.write("buzzy");
         res.end('end');
@@ -57,6 +60,11 @@ app.get('/AIretran', (req, res) => {
 app.get('/AIstatus', (req, res) => {
 
     res.send(status)
+
+})
+
+app.get('/', (req, res) => {
+    res.write()
 
 })
 
