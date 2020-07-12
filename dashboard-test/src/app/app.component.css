@@ -1,0 +1,64 @@
+
+#loginView-Container
+{
+	height: 100vh;
+	width: 100vw;
+	display: flex;
+	flex-direction: row;
+}
+#loginView-loginForm-Container
+{
+	height: 100%;
+	width: 50%;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+}
+#loginView-loginForm-Container
+{
+	background-color: #F5F6FA;
+}
+#loginView-onboardingMessages-Container
+{
+	background-color: #333333;
+	height: 100%;
+	width: 50%;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+	align-items: center;
+}
+#loginView-onboardingMessages
+{
+	height: 20%;
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: flex-end;
+	
+}
+#loginView-onboardingMessages > h1
+{
+	color: white;
+	width: 100%;
+	font-size: 260%;
+	padding-left: 10%;
+}
+#dashboard-version
+{
+	height: 50%;
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-end;
+	align-items: flex-end;
+}
+#dashboard-version > p
+{	
+	color: white;
+	width: 10%;
+	font-size: 110%;
+	padding-right: 2%;
+}

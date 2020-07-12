@@ -1,0 +1,28 @@
+<div id="loginFormComp-loginForm-Container">
+	<div id="loginFormComp-loginForm-TitleContainer">
+		<h2 class="fontR">Sign In</h2>
+		<p class="fontR">Please enter your details in the form below</p>
+	</div>
+	<div id="loginFormComp-loginForm-FormContainer">
+		<mat-form-field appearance="outline">
+			<mat-label>Username</mat-label>
+			<input matInput placeholder="Please enter your username.">
+			<mat-icon matPrefix>person</mat-icon>
+		</mat-form-field>
+		<mat-form-field appearance="outline">
+			<mat-label>Password</mat-label>
+			<input matInput placeholder="Please enter your password." [type]="hide ? 'password' : 'text'">
+			<mat-icon matPrefix>https</mat-icon>
+			<button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+				<mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+			</button>
+		</mat-form-field>
+	</div>
+	<div id="loginFormComp-loginForm-loginOptionsContainer">
+		<div id="loginFormComp-loginForm-loginOptions">
+			<a href="javascript:void(0)" class="fontR">Forgot password?</a>
+			<a href="javascript:void(0)" class="fontR">Remember me</a>
+		</div>
+		<button mat-flat-button id="loginFormComp-loginForm-loginBtn" class="fontSB">SIGN IN</button>
+	</div>
+</div>
